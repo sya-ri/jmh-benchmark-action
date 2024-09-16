@@ -15,6 +15,24 @@ object BenchmarkSpec extends ZIOSpecDefault:
           approximatelyEquals(firstComparison.change.get, -0.05, 0.000001)
         )
       },
+      test("ops/ms") {
+        val prevBenchmark   = makeBenchmark(100.0, ScoreUnit.OpsPerMillisecond)
+        val newBenchmark    = makeBenchmark(95.0, ScoreUnit.OpsPerMillisecond)
+        val firstComparison = newBenchmark.compare(Some(prevBenchmark)).comparisons.head
+        assertTrue(
+          firstComparison.ratio == Option(0.95),
+          approximatelyEquals(firstComparison.change.get, -0.05, 0.000001)
+        )
+      },
+      test("ms/op") {
+        val prevBenchmark   = makeBenchmark(95.0, ScoreUnit.MillisecondsPerOp)
+        val newBenchmark    = makeBenchmark(100.0, ScoreUnit.MillisecondsPerOp)
+        val firstComparison = newBenchmark.compare(Some(prevBenchmark)).comparisons.head
+        assertTrue(
+          firstComparison.ratio == Option(0.95),
+          approximatelyEquals(firstComparison.change.get, -0.05, 0.000001)
+        )
+      },
       test("ms") {
         val prevBenchmark   = makeBenchmark(95.0, ScoreUnit.Milliseconds)
         val newBenchmark    = makeBenchmark(100.0, ScoreUnit.Milliseconds)

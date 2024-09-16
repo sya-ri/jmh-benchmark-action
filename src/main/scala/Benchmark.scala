@@ -43,8 +43,14 @@ final case class BenchmarkRunComparison(
   def ratio: Option[Double] =
     for prev <- previous.map(_.primaryMetric) if prev.scoreUnit == current.primaryMetric.scoreUnit
     yield current.primaryMetric.scoreUnit match
-      case ScoreUnit.OpsPerSecond => current.primaryMetric.score / prev.score
-      case _                      => prev.score / current.primaryMetric.score
+      case ScoreUnit.OpsPerMillisecond
+           | ScoreUnit.OpsPerNanosecond
+           | ScoreUnit.OpsPerMicrosecond
+           | ScoreUnit.OpsPerSecond
+           | ScoreUnit.OpsPerMinute
+           | ScoreUnit.OpsPerHour
+           | ScoreUnit.OpsPerDay => current.primaryMetric.score / prev.score
+      case _                     => prev.score / current.primaryMetric.score
 
   def change: Option[Double] =
     ratio.map(_ - 1.0)
