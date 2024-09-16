@@ -1,5 +1,8 @@
 # JMH Benchmarking Action
 
+> [!WARNING]
+> Use https://github.com/benchmark-action/github-action-benchmark instead.
+
 This GitHub action is designed for running and comparing JMH benchmarks. It runs your benchmarks and checks for any
 performance regressions beyond a configurable threshold. When it detects a regression, it can either fail or provide a
 warning based on the `failOnRegression` configuration.
